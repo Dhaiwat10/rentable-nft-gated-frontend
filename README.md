@@ -4,11 +4,7 @@
 
 1. Clone the repo and `cd` into it
 
-2. Install the dependencies
-
-```bash
-yarn
-```
+2. Install the dependencies by running `yarn`.
 
 3. Edit the `CONTRACT_ADDRESS` variable in the `./pages/api/verify.ts` file to match your contract's address.
 
