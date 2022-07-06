@@ -1,29 +1,17 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-web3-frontend`](https://github.com/dhaiwat10/create-web3-frontend).
+# Rentable NFT frontend
 
-## Getting Started
+## Steps to make this work with your contract:
 
-First, run the development server:
+1. Clone the repo and `cd` into it
+
+2. Install the dependencies
 
 ```bash
-npm run dev
-# or
-yarn dev
+yarn
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Edit the `CONTRACT_ADDRESS` variable in the `./pages/api/verify.ts` file to match your contract's address.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+4. Run `yarn dev` to start the development server. You will see your app running in the browser.
 
-## Learn More
-
-To learn more about wagmi, take a look at the following resources:
-
-- [wagmi Documentation](https://wagmi.sh)
-- [wagmi Repo](https://github.com/tmm/wagmi)
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the create-web3-frontend GitHub repository](https://github.com/dhaiwat10/create-web3-frontend) - your feedback and contributions are welcome!
+5. Connect the wallet you rented an NFT to, enter the token ID and click 'Sign in and unlock.'

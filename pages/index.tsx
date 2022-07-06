@@ -1,47 +1,83 @@
 import type { NextPage } from 'next';
-import type { FC } from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useState } from 'react';
+import { useAccount, useSignMessage } from 'wagmi';
+import { Toaster, toast } from 'react-hot-toast';
 
 const Home: NextPage = () => {
-  return (
-    <div className='py-6 justify-center text-center'>
-      <div className='flex justify-center'>
-        <ConnectButton />
-      </div>
+  const { data: accountData } = useAccount();
+  const walletAddress = accountData?.address;
+  const [tokenId, setTokenId] = useState('');
+  const { signMessageAsync } = useSignMessage();
+  const [authenticated, setAuthenticated] = useState(false);
 
-      <h1 className='text-4xl font-bold mt-6'>🚀 create-web3-frontend</h1>
-      <InfoSection />
-    </div>
-  );
-};
+  const onUnlockClick = async () => {
+    if (!walletAddress) {
+      return alert('Please connect your wallet first');
+    }
+    if (!tokenId) {
+      return alert('Please enter a token id');
+    }
+    const messageToBeSigned = `Signed by ${walletAddress} for token ID ${tokenId}`;
+    const signature = await signMessageAsync({ message: messageToBeSigned });
+    const res = await (
+      await fetch('/api/verify', {
+        method: 'POST',
+        body: JSON.stringify({
+          walletAddress,
+          signature,
+          tokenId,
+        }),
+      })
+    ).json();
+    if (res.ok) {
+      toast.success('Authenticated!');
+      setAuthenticated(true);
+    } else {
+      toast.error('Failed to authenticate!');
+    }
+  };
 
-const InfoSection: FC = () => {
   return (
-    <div className='mt-10'>
-      <h2 className='text-xl font-bold'>If you need help</h2>
-      <div className='flex flex-col gap-2 mt-2'>
-        <a
-          href='https://wagmi.sh'
-          target='_blank'
-          className='underline text-gray-600'
-        >
-          Link to wagmi docs
-        </a>
-        <a
-          href='https://github.com/dhaiwat10/create-web3-frontend'
-          target='_blank'
-          className='underline text-gray-600'
-        >
-          Open an issue on Github
-        </a>
-        <a
-          href='https://twitter.com/dhaiwat10'
-          target='_blank'
-          className='underline text-gray-600'
-        >
-          DM me on Twitter
-        </a>
-      </div>
+    <div className='py-6 flex flex-col items-center'>
+      <Toaster />
+      <ConnectButton />
+
+      {authenticated ? (
+        <div>
+          <iframe
+            width='560'
+            height='315'
+            src='https://www.youtube.com/embed/dQw4w9WgXcQ'
+            title='YouTube video player'
+            frameBorder='0'
+            className='mt-6 rounded-lg'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+            allowFullScreen
+          ></iframe>
+        </div>
+      ) : (
+        <>
+          <h1 className='text-4xl font-bold mt-6'>
+            🚀 Gated rentable NFT frontend
+          </h1>
+
+          <label className='block text-gray-700 font-bold mt-6'>Token ID</label>
+          <input
+            className='rounded p-2 border w-[300px]'
+            value={tokenId}
+            onChange={(e) => setTokenId(e.target.value)}
+            placeholder='Token ID of the NFT you rented'
+          />
+
+          <button
+            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4'
+            onClick={onUnlockClick}
+          >
+            Sign and unlock
+          </button>
+        </>
+      )}
     </div>
   );
 };

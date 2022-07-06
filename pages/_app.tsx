@@ -7,9 +7,9 @@ import { publicProvider } from 'wagmi/providers/public';
 import type { AppProps } from 'next/app';
 
 const { chains, provider } = configureChains(
-  [chain.mainnet],
+  [chain.optimismKovan],
   [
-    jsonRpcProvider({ rpc: () => ({ http: 'https://rpc.ankr.com/eth' }) }),
+    jsonRpcProvider({ rpc: () => ({ http: 'https://kovan.optimism.io' }) }),
     publicProvider(),
   ]
 );
