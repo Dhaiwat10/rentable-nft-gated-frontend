@@ -59,8 +59,9 @@ const Home: NextPage = () => {
       ) : (
         <>
           <h1 className='text-4xl font-bold mt-6'>
-            🚀 Gated rentable NFT frontend
+            🔐 Gated rentable NFT frontend
           </h1>
+          <h3>Use the NFT you rented to see what&apos;s inside 👀</h3>
 
           <label className='block text-gray-700 font-bold mt-6'>Token ID</label>
           <input
